@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 4372176ad7d7f204ba3bb6eddff040e1
+timeCreated: 1472461596
+licenseType: Free
+PluginImporter:
+  serializedVersion: 1
+  iconMap: {}
+  executionOrder: {}
+  isPreloaded: 0
+  platformData:
+    Android:
+      enabled: 1
+      settings:
+        CPU: ARMv7
+    Any:
+      enabled: 0
+      settings: {}
+    Editor:
+      enabled: 0
+      settings:
+        DefaultValueInitialized: true
+  userData: 
+  assetBundleName: minimobvideounity
+  assetBundleVariant: 
