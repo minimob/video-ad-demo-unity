@@ -58,6 +58,11 @@ public class MinimobVideoExampleUi : MonoBehaviour
             PreloadingVideoGameObject.SetActive(false);
         };
         // pre-loaded only
+        videoPlayer.OnVideoLoadingAction = () =>
+        {
+            Debug.Log("MinimobVideoExample:Video still loading...");
+        };
+        // pre-loaded only
         videoPlayer.OnVideoLoadedAction = () =>
         {
             PreloadingVideoGameObject.SetActive(false);
