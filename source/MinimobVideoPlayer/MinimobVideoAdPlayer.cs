@@ -24,6 +24,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
             var go = new GameObject();
             _instance = go.AddComponent<MinimobVideoAdPlayer>();
             go.name = "MinimobVideoAdPlayer";
+            // don't destroy the video game object when loading a new scene
             DontDestroyOnLoad(go);
         }
         return _instance;
@@ -53,15 +54,13 @@ public class MinimobVideoAdPlayer : MonoBehaviour
         _onVideoCreatedAction = onVideoCreatedAction;
         _videoCreated = false;
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-        using(var adPlayerJavaClass = new AndroidJavaClass("com.minimob.unityplugin.MinimobVideoAdPlayer"))
+        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.unityplugin.MinimobVideoAdPlayer"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
             {
                 adPlayerObject.Call("CreateVideo", adTagString, customTrackingData,preloadedVideo);
             }
         };
-#endif
     }
 
     // preload video can only be called for preloaded videos 
@@ -69,11 +68,9 @@ public class MinimobVideoAdPlayer : MonoBehaviour
     {
         if (!_videoCreated)
         {
-            Debug.LogError("Preload Video called before Video was created");
             return;
         }
-
-#if UNITY_ANDROID && !UNITY_EDITOR
+        
         using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.unityplugin.MinimobVideoAdPlayer"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
@@ -81,18 +78,15 @@ public class MinimobVideoAdPlayer : MonoBehaviour
                 adPlayerObject.Call("PreloadVideo");
             }
         };
-#endif
     }
 
     public void ShowVideo()
     {
         if (!_videoCreated)
         {
-            Debug.LogError("Showvideo called before Video was created");
             return;
         }
-
-#if UNITY_ANDROID && !UNITY_EDITOR
+        
         using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.unityplugin.MinimobVideoAdPlayer"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
@@ -100,13 +94,10 @@ public class MinimobVideoAdPlayer : MonoBehaviour
                 adPlayerObject.Call("ShowVideo");
             }
         };
-#endif
     }
 
     public void OnVideoCreated()
     {
-        if (Debug.isDebugBuild)
-            Debug.Log("MinimobVideo:unity video created");
         _videoCreated = true;
         if (_onVideoCreatedAction != null)
         {
@@ -117,56 +108,42 @@ public class MinimobVideoAdPlayer : MonoBehaviour
 
     public void OnAdsNotAvailable()
     {
-        if (Debug.isDebugBuild)
-            Debug.Log("MinimobVideo:unity ads not available");
         if (OnAdsNotAvailableAction != null)
             OnAdsNotAvailableAction();
     }
 
     public void OnAdsAvailable()
     {
-        if (Debug.isDebugBuild)
-            Debug.Log("MinimobVideo:unity ads available");
         if (OnAdsAvailableAction != null)
             OnAdsAvailableAction();
     }
 
     public void OnVideoPlaying()
     {
-        if (Debug.isDebugBuild)
-            Debug.Log("MinimobVideo:unity video playing");
         if (OnVideoPlayingAction != null)
             OnVideoPlayingAction();
     }
 
     public void OnVideoFinished()
     {
-        if (Debug.isDebugBuild)
-            Debug.Log("MinimobVideo:unity video finished");
         if (OnVideoFinishedAction != null)
             OnVideoFinishedAction();
     }
 
     public void OnVideoClosed()
     {
-        if (Debug.isDebugBuild)
-            Debug.Log("MinimobVideo:unity video closed");
         if (OnVideoClosedAction != null)
             OnVideoClosedAction();
     }
 
     public void OnVideoLoaded()
     {
-        if (Debug.isDebugBuild)
-            Debug.Log("MinimobVideo:unity video preloaded");
-
         if (OnVideoPreloadedAction != null)
             OnVideoPreloadedAction();
     }
 
     public void OnApplicationFocus(bool focus)
     {
-#if UNITY_ANDROID && !UNITY_EDITOR
         using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.unityplugin.MinimobVideoAdPlayer"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
@@ -174,7 +151,5 @@ public class MinimobVideoAdPlayer : MonoBehaviour
                 adPlayerObject.Call("OnApplicationFocus", focus);
             }
         };
-#endif
     }
-
 }

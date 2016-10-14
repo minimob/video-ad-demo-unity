@@ -46,6 +46,8 @@ public class MinimobVideoExampleUi : MonoBehaviour
     void Start () 
     {
         var videoPlayer = MinimobVideoAdPlayer.GetInstance();
+
+        // declare the delegates
         videoPlayer.OnAdsNotAvailableAction = () =>
         {
             Debug.Log("MinimobVideoExample:no videos are currently available...");
@@ -67,16 +69,22 @@ public class MinimobVideoExampleUi : MonoBehaviour
         {
             Debug.Log("MinimobVideoExample:video finished playing...");
         };
+        videoPlayer.OnVideoPreloadedAction = () =>
+        {
+            PreloadingVideoGameObject.SetActive(false);
+            Debug.Log("MinimobVideoExample:Video preloaded succesfully. Showing video...");
+            videoPlayer.ShowVideo();
+        };
     }
 
     public void OnPlayVideoButtonClicked()
     {
         var videoPlayer = MinimobVideoAdPlayer.GetInstance();
         videoPlayer.CreateVideo(AdTagString, CustomTrackingData,()=>
-            {
-                Debug.Log("MinimobVideoExample:Video created succesfully.Showing video...");
-                videoPlayer.ShowVideo();
-            }
+        {
+            Debug.Log("MinimobVideoExample:Video created succesfully.Showing video...");
+            videoPlayer.ShowVideo();
+        }
         ,false);
     }
 
@@ -90,12 +98,5 @@ public class MinimobVideoExampleUi : MonoBehaviour
             videoPlayer.PreloadVideo();
         }
         ,true);
-
-        videoPlayer.OnVideoPreloadedAction = ()=>
-        {
-            PreloadingVideoGameObject.SetActive(false);
-            Debug.Log("MinimobVideoExample:Video preloaded succesfully. Showing video...");
-            videoPlayer.ShowVideo();
-        };
     }
 }
