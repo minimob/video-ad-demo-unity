@@ -4,14 +4,17 @@ using Debug = UnityEngine.Debug;
 
 public class MinimobVideoAdPlayer : MonoBehaviour
 {
-    public UnityAction OnAdsNotAvailableAction;
     public UnityAction OnAdsAvailableAction;
+    public UnityAction OnAdsNotAvailableAction;
+    public UnityAction OnVideoLoadingAction; // pre-loaded only
+    public UnityAction OnVideoLoadedAction; // pre-loaded only
     public UnityAction OnVideoPlayingAction;
     public UnityAction OnVideoFinishedAction;
     public UnityAction OnVideoClosedAction;
-    public UnityAction OnVideoPreloadedAction;
 
+    // internal action
     private UnityAction _onVideoCreatedAction;
+
     private bool _videoCreated = false;
     private bool _preloadedVideo = false;
 
@@ -24,7 +27,6 @@ public class MinimobVideoAdPlayer : MonoBehaviour
             var go = new GameObject();
             _instance = go.AddComponent<MinimobVideoAdPlayer>();
             go.name = "MinimobVideoAdPlayer";
-            // don't destroy the video game object when loading a new scene
             DontDestroyOnLoad(go);
         }
         return _instance;
@@ -42,7 +44,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
         gameObject.name = "MinimobVideoAdPlayer";
     }
 
-    public void CreateVideo(string adTagString, string customTrackingData, UnityAction onVideoCreatedAction , bool preloadedVideo)
+    public void CreateVideo(string adTagString, string customTrackingData, UnityAction onVideoCreatedAction, bool preloadedVideo)
     {
         if (_videoCreated && _preloadedVideo == preloadedVideo)
         {
@@ -58,35 +60,40 @@ public class MinimobVideoAdPlayer : MonoBehaviour
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
             {
-                adPlayerObject.Call("CreateVideo", adTagString, customTrackingData,preloadedVideo);
+                adPlayerObject.Call("CreateVideo", adTagString, customTrackingData, preloadedVideo);
             }
         };
     }
 
-    // preload video can only be called for preloaded videos 
-    public void PreloadVideo()
+    /// <summary>
+    /// Only call this for preloaded videos 
+    /// </summary>
+    public void LoadVideo()
     {
         if (!_videoCreated)
         {
             return;
         }
-        
+
         using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.unityplugin.MinimobVideoAdPlayer"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
             {
-                adPlayerObject.Call("PreloadVideo");
+                adPlayerObject.Call("LoadVideo");
             }
         };
     }
 
+    /// <summary>
+    /// This shows a preloaded video/creates and shows a video
+    /// </summary>
     public void ShowVideo()
     {
         if (!_videoCreated)
         {
             return;
         }
-        
+
         using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.unityplugin.MinimobVideoAdPlayer"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
@@ -96,14 +103,10 @@ public class MinimobVideoAdPlayer : MonoBehaviour
         };
     }
 
-    public void OnVideoCreated()
+    public void OnAdsAvailable()
     {
-        _videoCreated = true;
-        if (_onVideoCreatedAction != null)
-        {
-            _onVideoCreatedAction();
-            _onVideoCreatedAction = null;
-        }
+        if (OnAdsAvailableAction != null)
+            OnAdsAvailableAction();
     }
 
     public void OnAdsNotAvailable()
@@ -112,10 +115,18 @@ public class MinimobVideoAdPlayer : MonoBehaviour
             OnAdsNotAvailableAction();
     }
 
-    public void OnAdsAvailable()
+    // pre-loaded only
+    public void OnVideoLoading()
     {
-        if (OnAdsAvailableAction != null)
-            OnAdsAvailableAction();
+        if (OnVideoLoadingAction != null)
+            OnVideoLoadingAction();
+    }
+
+    // pre-loaded only
+    public void OnVideoLoaded()
+    {
+        if (OnVideoLoadedAction != null)
+            OnVideoLoadedAction();
     }
 
     public void OnVideoPlaying()
@@ -136,10 +147,14 @@ public class MinimobVideoAdPlayer : MonoBehaviour
             OnVideoClosedAction();
     }
 
-    public void OnVideoLoaded()
+    public void OnVideoCreated()
     {
-        if (OnVideoPreloadedAction != null)
-            OnVideoPreloadedAction();
+        _videoCreated = true;
+        if (_onVideoCreatedAction != null)
+        {
+            _onVideoCreatedAction();
+            _onVideoCreatedAction = null;
+        }
     }
 
     public void OnApplicationFocus(bool focus)

@@ -48,32 +48,33 @@ public class MinimobVideoExampleUi : MonoBehaviour
         var videoPlayer = MinimobVideoAdPlayer.GetInstance();
 
         // declare the delegates
+        videoPlayer.OnAdsAvailableAction = () =>
+        {
+            Debug.Log("MinimobVideoExample:video ads are currently available...");
+        };
         videoPlayer.OnAdsNotAvailableAction = () =>
         {
             Debug.Log("MinimobVideoExample:no videos are currently available...");
             PreloadingVideoGameObject.SetActive(false);
         };
-	    videoPlayer.OnAdsAvailableAction = () =>
-	    {
-            Debug.Log("MinimobVideoExample:video ads are currently available...");
+        // pre-loaded only
+        videoPlayer.OnVideoLoadedAction = () =>
+        {
+            PreloadingVideoGameObject.SetActive(false);
+            Debug.Log("MinimobVideoExample:Video loaded succesfully. Showing video...");
+            videoPlayer.ShowVideo();
         };
         videoPlayer.OnVideoPlayingAction = () =>
         {
             Debug.Log("MinimobVideoExample:on video playing action...");
         };
-        videoPlayer.OnVideoClosedAction = () =>
-        {
-            Debug.Log("MinimobVideoExample:User closed video...");
-        };
         videoPlayer.OnVideoFinishedAction = () =>
         {
             Debug.Log("MinimobVideoExample:video finished playing...");
         };
-        videoPlayer.OnVideoPreloadedAction = () =>
+        videoPlayer.OnVideoClosedAction = () =>
         {
-            PreloadingVideoGameObject.SetActive(false);
-            Debug.Log("MinimobVideoExample:Video preloaded succesfully. Showing video...");
-            videoPlayer.ShowVideo();
+            Debug.Log("MinimobVideoExample:User closed video...");
         };
     }
 
@@ -95,7 +96,7 @@ public class MinimobVideoExampleUi : MonoBehaviour
         {
             Debug.Log("MinimobVideoExample:Video created succesfully. Preloading video...");
             PreloadingVideoGameObject.SetActive(true);
-            videoPlayer.PreloadVideo();
+            videoPlayer.LoadVideo();
         }
         ,true);
     }
