@@ -69,7 +69,6 @@
     <Compile Include="Example\MinimobVideoExampleUi.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
     <None Include="Example\minimobvideoexample.unity" />
   </ItemGroup>
   <ItemGroup />
