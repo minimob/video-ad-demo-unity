@@ -198,6 +198,14 @@
         videoPlayer.OnAdsNotAvailableAction = () =&gt;
         {
         };
+        // OnVideoLoadingAction is called when the preloaded video is loading
+        videoPlayer.OnVideoLoadingAction = () =&gt;
+        {
+        };
+        // OnVideoLoadedAction is called when the preloaded video has finished loading
+        videoPlayer.OnVideoLoadedAction = () =&gt;
+        {
+        };
         // OnVideoPlayingAction is called when the video starts playing
         videoPlayer.OnVideoPlayingAction = () =&gt;
         {
@@ -209,17 +217,6 @@
         };
         // OnVideoClosedAction is called when the user closes the Video Ad before it has finished
         videoPlayer.OnVideoClosedAction = () =&gt;
-        {
-        };
-
-        // pre-loaded only
-        // OnVideoLoadingAction is called when the preloaded video is loading
-        videoPlayer.OnVideoLoadingAction = () =&gt;
-        {
-        };
-        // pre-loaded only
-        // OnVideoLoadedAction is called when the preloaded video has finished loading
-        videoPlayer.OnVideoLoadedAction = () =&gt;
         {
         };
     }
