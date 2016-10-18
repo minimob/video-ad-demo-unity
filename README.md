@@ -190,19 +190,19 @@
         // Optionally, set the delegates for the supported events:
         // ads available, ads NOT available, video loading, video loaded, video playing, video finished, video closed
         // This enables you to customize the user experience according to the needs of your app
-        // OnAdsAvailableAction is called when there are ads available and will be invoked after a call to ShowVideo() or PreloadVideo()
+        // OnAdsAvailableAction is called when there are ads available and will be invoked after a call to ShowVideo() or LoadVideo()
         videoPlayer.OnAdsAvailableAction = () =&gt;
         {
         };
-        // OnAdsNotAvailableAction is called when there are no ads available and it will be invoked after a call to ShowVideo() or PreloadVideo()
+        // OnAdsNotAvailableAction is called when there are no ads available and it will be invoked after a call to ShowVideo() or LoadVideo()
         videoPlayer.OnAdsNotAvailableAction = () =&gt;
         {
         };
-        // OnVideoLoadingAction is called when the preloaded video is loading
+        // OnVideoLoadingAction is called when the video is loading
         videoPlayer.OnVideoLoadingAction = () =&gt;
         {
         };
-        // OnVideoLoadedAction is called when the preloaded video has finished loading
+        // OnVideoLoadedAction is called when the video has finished loading
         videoPlayer.OnVideoLoadedAction = () =&gt;
         {
         };
@@ -224,13 +224,13 @@
     // Create video
     videoPlayer.CreateVideo(AdTagString, CustomTrackingData, ()=&gt;
     {
-        // Preload the video
+        // Load the video
         videoPlayer.LoadVideo();
     }
     ,true);
 </code>
 </pre>
-   <p>Once the video has finished preloading, the <strong>OnVideoLoadedAction</strong> callback will be invoked.</p>
+   <p>Once the video has finished loading, the <strong>OnVideoLoadedAction</strong> callback will be invoked.</p>
    <p>At the point in your code where you want to play the video, you need to call the <strong>ShowVideo()</strong> method.</p>
 <pre class="prettyprint linenums">
 <code>// Show the video
