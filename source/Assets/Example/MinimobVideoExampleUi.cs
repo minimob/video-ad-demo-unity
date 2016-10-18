@@ -2,8 +2,12 @@
 
 public class MinimobVideoExampleUi : MonoBehaviour
 {
-    public GameObject PreloadingVideoGameObject;
+    public GameObject LoadingVideoPanel;
     private MinimobVideoAdPlayer _videoPlayer;
+    
+    public GameObject LoadNPlayVideoButton;
+    public GameObject LoadVideoButton;
+    public GameObject PlayVideoButton;
 
     [HideInInspector]
     public string CustomTrackingData = "";
@@ -51,35 +55,62 @@ public class MinimobVideoExampleUi : MonoBehaviour
         // declare the delegates
         videoPlayer.OnAdsAvailableAction = () =>
         {
+            LoadingVideoPanel.SetActive(false);
+            LoadNPlayVideoButton.SetActive(true);
+            LoadVideoButton.SetActive(true);
+            PlayVideoButton.SetActive(false);
             Debug.Log("MinimobVideoExample:Video ads are currently available...");
         };
         videoPlayer.OnAdsNotAvailableAction = () =>
         {
+            LoadingVideoPanel.SetActive(false);
+            LoadNPlayVideoButton.SetActive(true);
+            LoadVideoButton.SetActive(true);
+            PlayVideoButton.SetActive(false);
             Debug.Log("MinimobVideoExample:No videos are currently available...");
-            PreloadingVideoGameObject.SetActive(false);
+            LoadingVideoPanel.SetActive(false);
         };
         // pre-loaded only
         videoPlayer.OnVideoLoadingAction = () =>
         {
+            LoadingVideoPanel.SetActive(true);
+            LoadNPlayVideoButton.SetActive(false);
+            LoadVideoButton.SetActive(false);
+            PlayVideoButton.SetActive(false);
             Debug.Log("MinimobVideoExample:Video loading...");
         };
         // pre-loaded only
         videoPlayer.OnVideoLoadedAction = () =>
         {
-            PreloadingVideoGameObject.SetActive(false);
+            LoadingVideoPanel.SetActive(false);
+            LoadNPlayVideoButton.SetActive(true);
+            LoadVideoButton.SetActive(false);
+            PlayVideoButton.SetActive(true);
             Debug.Log("MinimobVideoExample:Video loaded succesfully...");
             videoPlayer.ShowVideo();
         };
         videoPlayer.OnVideoPlayingAction = () =>
         {
+            LoadingVideoPanel.SetActive(false);
+            LoadNPlayVideoButton.SetActive(false);
+            LoadVideoButton.SetActive(false);
+            PlayVideoButton.SetActive(false);
             Debug.Log("MinimobVideoExample:Video playing action...");
         };
         videoPlayer.OnVideoFinishedAction = () =>
         {
+            LoadingVideoPanel.SetActive(false);
+            LoadNPlayVideoButton.SetActive(true);
+            LoadVideoButton.SetActive(true);
+            PlayVideoButton.SetActive(false);
             Debug.Log("MinimobVideoExample:Video finished playing...");
         };
         videoPlayer.OnVideoClosedAction = () =>
         {
+            LoadingVideoPanel.SetActive(false);
+            LoadNPlayVideoButton.SetActive(true);
+            LoadVideoButton.SetActive(true);
+            PlayVideoButton.SetActive(false);
             Debug.Log("MinimobVideoExample:User closed video...");
         };
     }
@@ -89,6 +120,10 @@ public class MinimobVideoExampleUi : MonoBehaviour
         var videoPlayer = MinimobVideoAdPlayer.GetInstance();
         videoPlayer.CreateVideo(AdTagString, CustomTrackingData,()=>
         {
+            LoadingVideoPanel.SetActive(true);
+            LoadNPlayVideoButton.SetActive(false);
+            LoadVideoButton.SetActive(false);
+            PlayVideoButton.SetActive(false);
             Debug.Log("MinimobVideoExample:Loading and playing video...");
             videoPlayer.ShowVideo();
         }
@@ -100,20 +135,27 @@ public class MinimobVideoExampleUi : MonoBehaviour
         var videoPlayer = MinimobVideoAdPlayer.GetInstance();
         videoPlayer.CreateVideo(AdTagString, CustomTrackingData, ()=>
         {
-            Debug.Log("MinimobVideoExample:Preloading video...");
-            PreloadingVideoGameObject.SetActive(true);
+            LoadingVideoPanel.SetActive(true);
+            LoadNPlayVideoButton.SetActive(false);
+            LoadVideoButton.SetActive(false);
+            PlayVideoButton.SetActive(false);
             _videoPlayer = videoPlayer;
             videoPlayer.LoadVideo();
+            Debug.Log("MinimobVideoExample:Preloading video...");
         }
         ,true);
     }
 
     public void OnPlayVideoButtonClicked()
     {
-        Debug.Log("MinimobVideoExample:Playing video...");
+        LoadingVideoPanel.SetActive(true);
+        LoadNPlayVideoButton.SetActive(false);
+        LoadVideoButton.SetActive(false);
+        PlayVideoButton.SetActive(false);
         if (_videoPlayer != null)
         {
-            _videoPlayer.LoadVideo();
+            _videoPlayer.ShowVideo();
+            Debug.Log("MinimobVideoExample:Playing video...");
         }
     }
 }
