@@ -166,7 +166,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
     public void OnApplicationFocus(bool focus)
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
-        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.addemos.unity.MinimobVideoAdPlayer"))
+        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.unityplugin.MinimobVideoAdPlayer"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
             {
