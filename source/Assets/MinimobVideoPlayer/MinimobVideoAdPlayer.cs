@@ -56,6 +56,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
         _onVideoCreatedAction = onVideoCreatedAction;
         _videoCreated = false;
 
+#if UNITY_ANDROID && !UNITY_EDITOR
         using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.unityplugin.MinimobVideoAdPlayer"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
@@ -63,6 +64,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
                 adPlayerObject.Call("CreateVideo", adTagString, customTrackingData, preloadedVideo);
             }
         };
+#endif
     }
 
     /// <summary>
@@ -75,6 +77,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
             return;
         }
 
+#if UNITY_ANDROID && !UNITY_EDITOR
         using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.unityplugin.MinimobVideoAdPlayer"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
@@ -82,6 +85,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
                 adPlayerObject.Call("LoadVideo");
             }
         };
+#endif
     }
 
     /// <summary>
@@ -94,6 +98,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
             return;
         }
 
+#if UNITY_ANDROID && !UNITY_EDITOR
         using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.unityplugin.MinimobVideoAdPlayer"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
@@ -101,6 +106,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
                 adPlayerObject.Call("ShowVideo");
             }
         };
+#endif
     }
 
     public void OnAdsAvailable()
@@ -159,12 +165,14 @@ public class MinimobVideoAdPlayer : MonoBehaviour
 
     public void OnApplicationFocus(bool focus)
     {
-        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.unityplugin.MinimobVideoAdPlayer"))
+#if UNITY_ANDROID && !UNITY_EDITOR
+        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.addemos.unity.MinimobVideoAdPlayer"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
             {
                 adPlayerObject.Call("OnApplicationFocus", focus);
             }
         };
+#endif
     }
 }
