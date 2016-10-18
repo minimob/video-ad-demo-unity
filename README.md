@@ -100,9 +100,9 @@
     {
         var videoPlayer = MinimobVideoAdPlayer.GetInstance();
 
-        // Optionally, set listeners for events such as: ads available, ads NOT available, video playing, video finished, video closed
+        // Optionally, set the delegates for the supported events:
+        // ads available, ads NOT available, video playing, video finished, video closed
         // This enables you to customize the user experience according to the needs of your app
-        // Declare the delegates
         // OnAdsAvailableAction is called when there are ads available and will be invoked after a call to ShowVideo() or PreloadVideo()
         videoPlayer.OnAdsAvailableAction = () =&gt;
         {
@@ -115,7 +115,8 @@
         videoPlayer.OnVideoPlayingAction = () =&gt;
         {
         };
-        // OnVideoFinishedAction is called when the video has finished playing. This means that the user watched the whole video and it is a good place to give a reward if you want to incentivize the action.
+        // OnVideoFinishedAction is called when the video has finished playing.
+        // This means that the user watched the whole video and it is a good place to give a reward if you want to incentivize the action.
         videoPlayer.OnVideoFinishedAction = () =&gt;
         {
         };
@@ -126,7 +127,6 @@
     }
 
     // Create video
-    var videoPlayer = MinimobVideoAdPlayer.GetInstance();
     videoPlayer.CreateVideo(AdTagString, CustomTrackingData,()=&gt;
     {
         // Show the video
@@ -187,9 +187,9 @@
     {
         var videoPlayer = MinimobVideoAdPlayer.GetInstance();
 
-        // Optionally, set listeners for events such as: ads available, ads NOT available, video playing, video finished, video closed
+        // Optionally, set the delegates for the supported events:
+        // ads available, ads NOT available, video loading, video loaded, video playing, video finished, video closed
         // This enables you to customize the user experience according to the needs of your app
-        // Declare the delegates
         // OnAdsAvailableAction is called when there are ads available and will be invoked after a call to ShowVideo() or PreloadVideo()
         videoPlayer.OnAdsAvailableAction = () =&gt;
         {
@@ -202,7 +202,8 @@
         videoPlayer.OnVideoPlayingAction = () =&gt;
         {
         };
-        // OnVideoFinishedAction is called when the video has finished playing. This means that the user watched the whole video and it is a good place to give a reward if you want to incentivize the action.
+        // OnVideoFinishedAction is called when the video has finished playing.
+        // This means that the user watched the whole video and it is a good place to give a reward if you want to incentivize the action.
         videoPlayer.OnVideoFinishedAction = () =&gt;
         {
         };
@@ -224,7 +225,6 @@
     }
 
     // Create video
-    var videoPlayer = MinimobVideoAdPlayer.GetInstance();
     videoPlayer.CreateVideo(AdTagString, CustomTrackingData, ()=&gt;
     {
         // Preload the video
