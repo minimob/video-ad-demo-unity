@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 using Debug = UnityEngine.Debug;
 
-public class MinimobVideoAdPlayer : MonoBehaviour
+public class MinimobAdServing : MonoBehaviour
 {
     public UnityAction OnAdsAvailableAction;
     public UnityAction OnAdsNotAvailableAction;
@@ -18,15 +18,15 @@ public class MinimobVideoAdPlayer : MonoBehaviour
     private bool _videoCreated = false;
     private bool _preloadedVideo = false;
 
-    private static MinimobVideoAdPlayer _instance = null;
+    private static MinimobAdServing _instance = null;
 
-    public static MinimobVideoAdPlayer GetInstance()
+    public static MinimobAdServing GetInstance()
     {
         if (_instance == null)
         {
             var go = new GameObject();
-            _instance = go.AddComponent<MinimobVideoAdPlayer>();
-            go.name = "MinimobVideoAdPlayer";
+            _instance = go.AddComponent<MinimobAdServing>();
+            go.name = "MinimobAdServing";
             DontDestroyOnLoad(go);
         }
         return _instance;
@@ -41,7 +41,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
         }
         _instance = this;
         DontDestroyOnLoad(gameObject);
-        gameObject.name = "MinimobVideoAdPlayer";
+        gameObject.name = "MinimobAdServing";
     }
 
     public void CreateVideo(string adTagString, string customTrackingData, UnityAction onVideoCreatedAction, bool preloadedVideo)
@@ -57,7 +57,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
         _videoCreated = false;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.adserving.unityplugin.MinimobVideoAdPlayer"))
+        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.adserving.unityplugin.MinimobAdServingUnityPlugin"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
             {
@@ -78,7 +78,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
         }
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.adserving.unityplugin.MinimobVideoAdPlayer"))
+        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.adserving.unityplugin.MinimobAdServingUnityPlugin"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
             {
@@ -99,7 +99,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
         }
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.adserving.unityplugin.MinimobVideoAdPlayer"))
+        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.adserving.unityplugin.MinimobAdServingUnityPlugin"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
             {
@@ -166,7 +166,7 @@ public class MinimobVideoAdPlayer : MonoBehaviour
     public void OnApplicationFocus(bool focus)
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
-        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.adserving.unityplugin.MinimobVideoAdPlayer"))
+        using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.adserving.unityplugin.MinimobAdServingUnityPlugin"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
             {

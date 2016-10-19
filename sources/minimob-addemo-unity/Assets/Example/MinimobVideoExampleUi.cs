@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class MinimobVideoExampleUi : MonoBehaviour
 {
-    private MinimobVideoAdPlayer _videoPlayer;
+    private MinimobAdServing _videoPlayer;
 
     //public GameObject LoadingVideoPanel;
     //public GameObject LoadNPlayVideoButton;
@@ -40,7 +40,7 @@ public class MinimobVideoExampleUi : MonoBehaviour
                     " \n" +
 
                     " var dev_settings = { \n" +
-                    " dataUrl:\"http://a.rtad.bid/adserver/servep/\", \n" +
+                    " dataUrl:\"http://172.30.3.166:3000/adserver/servep/\", \n" +
                     " templateUrl:\"http://s.rtad.bid/public/\", \n" +
                     " x_debug_ip:\"66.87.121.197\" \n" +
                     "}; \n" +
@@ -63,7 +63,7 @@ public class MinimobVideoExampleUi : MonoBehaviour
         //LoadVideoButton.GetComponent<Button>().onClick.AddListener(OnLoadVideoButtonClicked);
         //PlayVideoButton.GetComponent<Button>().onClick.AddListener(OnPlayVideoButtonClicked);
 
-        var videoPlayer = MinimobVideoAdPlayer.GetInstance();
+        var videoPlayer = MinimobAdServing.GetInstance();
 
         // declare the delegates
         videoPlayer.OnAdsAvailableAction = () =>
@@ -129,7 +129,7 @@ public class MinimobVideoExampleUi : MonoBehaviour
 
     public void OnLoadNPlayVideoButtonClicked()
     {
-        var videoPlayer = MinimobVideoAdPlayer.GetInstance();
+        var videoPlayer = MinimobAdServing.GetInstance();
         videoPlayer.CreateVideo(AdTagString, CustomTrackingData,()=>
         {
             //LoadingVideoPanel.SetActive(true);
@@ -144,7 +144,7 @@ public class MinimobVideoExampleUi : MonoBehaviour
 
     public void OnLoadVideoButtonClicked()
     {
-        var videoPlayer = MinimobVideoAdPlayer.GetInstance();
+        var videoPlayer = MinimobAdServing.GetInstance();
         videoPlayer.CreateVideo(AdTagString, CustomTrackingData, ()=>
         {
             //LoadingVideoPanel.SetActive(true);
