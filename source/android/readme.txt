@@ -1,1 +1,0 @@
-Please go to https://github.com/minimob/video-ad-serving-android/ for android sources
