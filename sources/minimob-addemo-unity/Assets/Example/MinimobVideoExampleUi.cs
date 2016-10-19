@@ -39,11 +39,11 @@ public class MinimobVideoExampleUi : MonoBehaviour
                     " custom_tracking_data: \"[custom_tracking_data]\"}; \n" +
                     " \n" +
 
-                    " var dev_settings = { \n" +
-                    " dataUrl:\"http://172.30.3.166:3000/adserver/servep/\", \n" +
-                    " templateUrl:\"http://s.rtad.bid/public/\", \n" +
-                    " x_debug_ip:\"66.87.121.197\" \n" +
-                    "}; \n" +
+                    //" var dev_settings = { \n" +
+                    //" dataUrl:\"http://172.30.3.166:3000/adserver/servep/\", \n" +
+                    //" templateUrl:\"http://s.rtad.bid/public/\", \n" +
+                    //" x_debug_ip:\"66.87.121.197\" \n" +
+                    //"}; \n" +
 
                     " var mmAdTagSettings_auto = { \n" +
                     " adzoneId:\"58077927000062\", \n" +
