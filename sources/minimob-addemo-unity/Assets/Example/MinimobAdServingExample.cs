@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class MinimobVideoExampleUi : MonoBehaviour
+public class MinimobAdServingExample : MonoBehaviour
 {
     private MinimobAdServing _videoPlayer;
 
     //public GameObject LoadingVideoPanel;
-    //public GameObject LoadNPlayVideoButton;
+    //public GameObject LoadNShowVideoButton;
     //public GameObject LoadVideoButton;
-    //public GameObject PlayVideoButton;
+    //public GameObject ShowVideoButton;
 
     [HideInInspector]
-    public string CustomTrackingData = "";
+    public string customTrackingData = "";
     [HideInInspector]
-    public string AdTagString = "<script> \n" +
+    public string adTagString = "<script> \n" +
                     " var mmAdTagSettings = { \n" +
                     " imei: \"[imei]\", \n" +
                     " android_id: \"[android_id]\", \n" +
@@ -39,11 +39,11 @@ public class MinimobVideoExampleUi : MonoBehaviour
                     " custom_tracking_data: \"[custom_tracking_data]\"}; \n" +
                     " \n" +
 
-                    //" var dev_settings = { \n" +
-                    //" dataUrl:\"http://172.30.3.166:3000/adserver/servep/\", \n" +
-                    //" templateUrl:\"http://s.rtad.bid/public/\", \n" +
-                    //" x_debug_ip:\"66.87.121.197\" \n" +
-                    //"}; \n" +
+                    " var dev_settings = { \n" +
+                    " dataUrl:'http://172.30.3.166:3000/adserver/servep/', \n" +
+                    " templateUrl:'http://172.30.3.166:3000/', \n" +
+                    " x_debug_ip:\"66.87.121.197\" \n" +
+                    "}; \n" +
 
                     " var mmAdTagSettings_auto = { \n" +
                     " adzoneId:\"58077927000062\", \n" +
@@ -54,14 +54,14 @@ public class MinimobVideoExampleUi : MonoBehaviour
                     " bundleId: \"com.minimob.addemos.unity\", \n" +
                     " placement: \"video fullscreen interstitial\"}; \n" +
                     " </script> \n" +
-                    " <script id=\"sdk-loader\" onerror=\"if(typeof(mmji)!='undefined'){mmji.noAds()}\" type=\"text/javascript\" src=\"http://s.rtad.bid/assets/video-fullscreen-mmji.js\"></script>";
+                    " <script id=\"sdk-loader\" onerror=\"if(typeof(mmji)!='undefined'){mmji.noAds()}\" type=\"text/javascript\" src='http://172.30.3.166:3000/assets/video-fullscreen-mmji.js'></script>";
 
 
     void Start () 
     {
-        //LoadNPlayVideoButton.GetComponent<Button>().onClick.AddListener(OnLoadNPlayVideoButtonClicked);
+        //LoadNShowVideoButton.GetComponent<Button>().onClick.AddListener(OnLoadNPlayVideoButtonClicked);
         //LoadVideoButton.GetComponent<Button>().onClick.AddListener(OnLoadVideoButtonClicked);
-        //PlayVideoButton.GetComponent<Button>().onClick.AddListener(OnPlayVideoButtonClicked);
+        //ShowVideoButton.GetComponent<Button>().onClick.AddListener(OnPlayVideoButtonClicked);
 
         var videoPlayer = MinimobAdServing.GetInstance();
 
@@ -72,7 +72,7 @@ public class MinimobVideoExampleUi : MonoBehaviour
             //LoadNPlayVideoButton.SetActive(true);
             //LoadVideoButton.SetActive(true);
             //PlayVideoButton.SetActive(false);
-            Debug.Log("MinimobVideoExample:Video ads are currently available...");
+            Debug.Log("MinimobAdServingExample:OnAdsAvailableAction()");
         };
         videoPlayer.OnAdsNotAvailableAction = () =>
         {
@@ -80,7 +80,7 @@ public class MinimobVideoExampleUi : MonoBehaviour
             //LoadNPlayVideoButton.SetActive(true);
             //LoadVideoButton.SetActive(true);
             //PlayVideoButton.SetActive(false);
-            Debug.Log("MinimobVideoExample:No videos are currently available...");
+            Debug.Log("MinimobAdServingExample:OnAdsNotAvailableAction()");
         };
         // pre-loaded only
         videoPlayer.OnVideoLoadingAction = () =>
@@ -89,7 +89,7 @@ public class MinimobVideoExampleUi : MonoBehaviour
             //LoadNPlayVideoButton.SetActive(false);
             //LoadVideoButton.SetActive(false);
             //PlayVideoButton.SetActive(false);
-            Debug.Log("MinimobVideoExample:Video loading...");
+            Debug.Log("MinimobAdServingExample:OnVideoLoadingAction()");
         };
         // pre-loaded only
         videoPlayer.OnVideoLoadedAction = () =>
@@ -98,7 +98,7 @@ public class MinimobVideoExampleUi : MonoBehaviour
             //LoadNPlayVideoButton.SetActive(true);
             //LoadVideoButton.SetActive(false);
             //PlayVideoButton.SetActive(true);
-            Debug.Log("MinimobVideoExample:Video loaded succesfully...");
+            Debug.Log("MinimobAdServingExample:OnVideoLoadedAction()");
             videoPlayer.ShowVideo();
         };
         videoPlayer.OnVideoPlayingAction = () =>
@@ -107,7 +107,7 @@ public class MinimobVideoExampleUi : MonoBehaviour
             //LoadNPlayVideoButton.SetActive(false);
             //LoadVideoButton.SetActive(false);
             //PlayVideoButton.SetActive(false);
-            Debug.Log("MinimobVideoExample:Video playing action...");
+            Debug.Log("MinimobAdServingExample:OnVideoPlayingAction()");
         };
         videoPlayer.OnVideoFinishedAction = () =>
         {
@@ -115,7 +115,7 @@ public class MinimobVideoExampleUi : MonoBehaviour
             //LoadNPlayVideoButton.SetActive(true);
             //LoadVideoButton.SetActive(true);
             //PlayVideoButton.SetActive(false);
-            Debug.Log("MinimobVideoExample:Video finished playing...");
+            Debug.Log("MinimobAdServingExample:OnVideoFinishedAction()");
         };
         videoPlayer.OnVideoClosedAction = () =>
         {
@@ -123,43 +123,50 @@ public class MinimobVideoExampleUi : MonoBehaviour
             //LoadNPlayVideoButton.SetActive(true);
             //LoadVideoButton.SetActive(true);
             //PlayVideoButton.SetActive(false);
-            Debug.Log("MinimobVideoExample:User closed video...");
+            Debug.Log("MinimobAdServingExample:OnVideoClosedAction()");
         };
     }
 
-    public void OnLoadNPlayVideoButtonClicked()
+    public void OnLoadNShowVideoButtonClicked()
     {
+        Debug.Log("MinimobAdServingExample:OnLoadNPlayVideoButtonClicked()");
         var videoPlayer = MinimobAdServing.GetInstance();
-        videoPlayer.CreateVideo(AdTagString, CustomTrackingData,()=>
+
+        videoPlayer.CreateAdZone(adTagString, customTrackingData, ()=>
         {
+            Debug.Log("MinimobAdServing:adTagString:" + adTagString);
+            Debug.Log("MinimobAdServingExample:onAdZoneCreatedAction() called");
             //LoadingVideoPanel.SetActive(true);
             //LoadNPlayVideoButton.SetActive(false);
             //LoadVideoButton.SetActive(false);
             //PlayVideoButton.SetActive(false);
-            Debug.Log("MinimobVideoExample:Loading and playing video...");
             videoPlayer.ShowVideo();
+            Debug.Log("MinimobAdServingExample:Showing video...");
         }
         ,false);
     }
 
     public void OnLoadVideoButtonClicked()
     {
+        Debug.Log("MinimobAdServingExample:OnLoadVideoButtonClicked()");
         var videoPlayer = MinimobAdServing.GetInstance();
-        videoPlayer.CreateVideo(AdTagString, CustomTrackingData, ()=>
+        videoPlayer.CreateAdZone(adTagString, customTrackingData, ()=>
         {
+            Debug.Log("MinimobAdServingExample:onAdZoneCreatedAction() called");
             //LoadingVideoPanel.SetActive(true);
             //LoadNPlayVideoButton.SetActive(false);
             //LoadVideoButton.SetActive(false);
             //PlayVideoButton.SetActive(false);
             _videoPlayer = videoPlayer;
             videoPlayer.LoadVideo();
-            Debug.Log("MinimobVideoExample:Preloading video...");
+            Debug.Log("MinimobAdServingExample:Loading video...");
         }
         ,true);
     }
 
-    public void OnPlayVideoButtonClicked()
+    public void OnShowVideoButtonClicked()
     {
+        Debug.Log("MinimobAdServingExample:OnShowVideoButtonClicked()");
         //LoadingVideoPanel.SetActive(true);
         //LoadNPlayVideoButton.SetActive(false);
         //LoadVideoButton.SetActive(false);
@@ -167,7 +174,7 @@ public class MinimobVideoExampleUi : MonoBehaviour
         if (_videoPlayer != null)
         {
             _videoPlayer.ShowVideo();
-            Debug.Log("MinimobVideoExample:Playing video...");
+            Debug.Log("MinimobAdServingExample:Showing video...");
         }
     }
 }

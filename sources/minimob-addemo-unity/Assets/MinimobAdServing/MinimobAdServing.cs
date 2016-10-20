@@ -4,6 +4,7 @@ using Debug = UnityEngine.Debug;
 
 public class MinimobAdServing : MonoBehaviour
 {
+    private UnityAction _onAdZoneCreatedAction;
     public UnityAction OnAdsAvailableAction;
     public UnityAction OnAdsNotAvailableAction;
     public UnityAction OnVideoLoadingAction; // pre-loaded only
@@ -12,16 +13,14 @@ public class MinimobAdServing : MonoBehaviour
     public UnityAction OnVideoFinishedAction;
     public UnityAction OnVideoClosedAction;
 
-    // internal action
-    private UnityAction _onVideoCreatedAction;
-
-    private bool _videoCreated = false;
-    private bool _preloadedVideo = false;
+    private bool _adZoneCreated = false;
+    private bool _preloadVideo = false;
 
     private static MinimobAdServing _instance = null;
 
     public static MinimobAdServing GetInstance()
     {
+        //Debug.Log("MinimobAdServing:GetInstance()");
         if (_instance == null)
         {
             var go = new GameObject();
@@ -34,6 +33,7 @@ public class MinimobAdServing : MonoBehaviour
 
     public void Awake()
     {
+        //Debug.Log("MinimobAdServing:Awake()");
         if (_instance != null)
         {
             Destroy(gameObject);
@@ -44,24 +44,34 @@ public class MinimobAdServing : MonoBehaviour
         gameObject.name = "MinimobAdServing";
     }
 
-    public void CreateVideo(string adTagString, string customTrackingData, UnityAction onVideoCreatedAction, bool preloadedVideo)
+    public void CreateAdZone(string adTagString, string customTrackingData, UnityAction onAdZoneCreatedAction, bool preloadVideo)
     {
-        if (_videoCreated && _preloadedVideo == preloadedVideo)
+        Debug.Log("MinimobAdServing:CreateAdZone()");
+        Debug.Log("MinimobAdServing:adTagString:" + adTagString);
+        Debug.Log("MinimobAdServing:preloadVideo:"+ preloadVideo);
+        // If the AdZone was already created and the mode is the same (immediate OR preloaded video), then execute the onAdZoneCreatedAction
+        if (_adZoneCreated && _preloadVideo == preloadVideo)
         {
-            if (onVideoCreatedAction != null)
-                onVideoCreatedAction();
+            if (onAdZoneCreatedAction != null)
+            {
+                Debug.Log("MinimobAdServing:Calling onAdZoneCreatedAction()");
+                onAdZoneCreatedAction();
+            }
             return;
         }
-        _preloadedVideo = preloadedVideo;
-        _onVideoCreatedAction = onVideoCreatedAction;
-        _videoCreated = false;
+        // set the mode (immediate OR preloaded video)
+        _preloadVideo = preloadVideo;
+        // set the action for when the viceo is created
+        _onAdZoneCreatedAction = onAdZoneCreatedAction;
+        // reset the adZone to not created YET
+        _adZoneCreated = false;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.adserving.unityplugin.MinimobAdServingUnityPlugin"))
         {
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
             {
-                adPlayerObject.Call("CreateVideo", adTagString, customTrackingData, preloadedVideo);
+                adPlayerObject.Call("CreateAdZone", adTagString, customTrackingData, preloadVideo);
             }
         };
 #endif
@@ -72,8 +82,10 @@ public class MinimobAdServing : MonoBehaviour
     /// </summary>
     public void LoadVideo()
     {
-        if (!_videoCreated)
+        Debug.Log("MinimobAdServing:LoadVideo()");
+        if (!_adZoneCreated)
         {
+            Debug.LogError("MinimobAdServing:Load Video called before Video was created");
             return;
         }
 
@@ -93,8 +105,10 @@ public class MinimobAdServing : MonoBehaviour
     /// </summary>
     public void ShowVideo()
     {
-        if (!_videoCreated)
+        Debug.Log("MinimobAdServing:ShowVideo()");
+        if (!_adZoneCreated)
         {
+            Debug.LogError("MinimobAdServing:Showvideo called before Video was created");
             return;
         }
 
@@ -109,14 +123,27 @@ public class MinimobAdServing : MonoBehaviour
 #endif
     }
 
+    public void OnAdZoneCreated()
+    {
+        Debug.Log("MinimobAdServing:OnAdZoneCreated()");
+        _adZoneCreated = true;
+        if (_onAdZoneCreatedAction != null)
+        {
+            _onAdZoneCreatedAction();
+            _onAdZoneCreatedAction = null;
+        }
+    }
+
     public void OnAdsAvailable()
     {
+        Debug.Log("MinimobAdServing:OnAdsAvailable()");
         if (OnAdsAvailableAction != null)
             OnAdsAvailableAction();
     }
 
     public void OnAdsNotAvailable()
     {
+        Debug.Log("MinimobAdServing:OnAdsNotAvailable()");
         if (OnAdsNotAvailableAction != null)
             OnAdsNotAvailableAction();
     }
@@ -124,6 +151,7 @@ public class MinimobAdServing : MonoBehaviour
     // pre-loaded only
     public void OnVideoLoading()
     {
+        Debug.Log("MinimobAdServing:OnVideoLoading()");
         if (OnVideoLoadingAction != null)
             OnVideoLoadingAction();
     }
@@ -131,40 +159,35 @@ public class MinimobAdServing : MonoBehaviour
     // pre-loaded only
     public void OnVideoLoaded()
     {
+        Debug.Log("MinimobAdServing:OnVideoLoaded()");
         if (OnVideoLoadedAction != null)
             OnVideoLoadedAction();
     }
 
     public void OnVideoPlaying()
     {
+        Debug.Log("MinimobAdServing:OnVideoPlaying()");
         if (OnVideoPlayingAction != null)
             OnVideoPlayingAction();
     }
 
     public void OnVideoFinished()
     {
+        Debug.Log("MinimobAdServing:OnVideoFinished()");
         if (OnVideoFinishedAction != null)
             OnVideoFinishedAction();
     }
 
     public void OnVideoClosed()
     {
+        Debug.Log("MinimobAdServing:OnVideoClosed()");
         if (OnVideoClosedAction != null)
             OnVideoClosedAction();
     }
 
-    public void OnVideoCreated()
-    {
-        _videoCreated = true;
-        if (_onVideoCreatedAction != null)
-        {
-            _onVideoCreatedAction();
-            _onVideoCreatedAction = null;
-        }
-    }
-
     public void OnApplicationFocus(bool focus)
     {
+        //Debug.Log("MinimobAdServing:OnApplicationFocus()");
 #if UNITY_ANDROID && !UNITY_EDITOR
         using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.adserving.unityplugin.MinimobAdServingUnityPlugin"))
         {
