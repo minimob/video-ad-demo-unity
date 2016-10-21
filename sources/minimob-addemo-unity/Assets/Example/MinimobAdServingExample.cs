@@ -6,9 +6,9 @@ public class MinimobAdServingExample : MonoBehaviour
     private MinimobAdServing _videoPlayer;
 
     //public GameObject LoadingVideoPanel;
-    //public GameObject LoadNShowVideoButton;
-    //public GameObject LoadVideoButton;
-    //public GameObject ShowVideoButton;
+    public GameObject LoadNShowVideoButton;
+    public GameObject LoadVideoButton;
+    public GameObject ShowVideoButton;
 
     [HideInInspector]
     public string customTrackingData = "";
@@ -59,9 +59,9 @@ public class MinimobAdServingExample : MonoBehaviour
 
     void Start () 
     {
-        //LoadNShowVideoButton.GetComponent<Button>().onClick.AddListener(OnLoadNPlayVideoButtonClicked);
+        //LoadNShowVideoButton.GetComponent<Button>().onClick.AddListener(OnLoadNShowVideoButtonClicked);
         //LoadVideoButton.GetComponent<Button>().onClick.AddListener(OnLoadVideoButtonClicked);
-        //ShowVideoButton.GetComponent<Button>().onClick.AddListener(OnPlayVideoButtonClicked);
+        //ShowVideoButton.GetComponent<Button>().onClick.AddListener(OnShowVideoButtonClicked);
 
         var videoPlayer = MinimobAdServing.GetInstance();
 
@@ -69,60 +69,59 @@ public class MinimobAdServingExample : MonoBehaviour
         videoPlayer.OnAdsAvailableAction = () =>
         {
             //LoadingVideoPanel.SetActive(false);
-            //LoadNPlayVideoButton.SetActive(true);
-            //LoadVideoButton.SetActive(true);
-            //PlayVideoButton.SetActive(false);
+            LoadNShowVideoButton.SetActive(true);
+            LoadVideoButton.SetActive(true);
+            ShowVideoButton.SetActive(false);
             Debug.Log("MinimobAdServingExample:OnAdsAvailableAction()");
         };
         videoPlayer.OnAdsNotAvailableAction = () =>
         {
             //LoadingVideoPanel.SetActive(false);
-            //LoadNPlayVideoButton.SetActive(true);
-            //LoadVideoButton.SetActive(true);
-            //PlayVideoButton.SetActive(false);
+            LoadNShowVideoButton.SetActive(true);
+            LoadVideoButton.SetActive(true);
+            ShowVideoButton.SetActive(false);
             Debug.Log("MinimobAdServingExample:OnAdsNotAvailableAction()");
         };
         // pre-loaded only
         videoPlayer.OnVideoLoadingAction = () =>
         {
             //LoadingVideoPanel.SetActive(true);
-            //LoadNPlayVideoButton.SetActive(false);
-            //LoadVideoButton.SetActive(false);
-            //PlayVideoButton.SetActive(false);
+            LoadNShowVideoButton.SetActive(false);
+            LoadVideoButton.SetActive(false);
+            ShowVideoButton.SetActive(false);
             Debug.Log("MinimobAdServingExample:OnVideoLoadingAction()");
         };
         // pre-loaded only
         videoPlayer.OnVideoLoadedAction = () =>
         {
             //LoadingVideoPanel.SetActive(false);
-            //LoadNPlayVideoButton.SetActive(true);
-            //LoadVideoButton.SetActive(false);
-            //PlayVideoButton.SetActive(true);
+            LoadNShowVideoButton.SetActive(true);
+            LoadVideoButton.SetActive(false);
+            ShowVideoButton.SetActive(true);
             Debug.Log("MinimobAdServingExample:OnVideoLoadedAction()");
-            videoPlayer.ShowVideo();
         };
         videoPlayer.OnVideoPlayingAction = () =>
         {
             //LoadingVideoPanel.SetActive(false);
-            //LoadNPlayVideoButton.SetActive(false);
-            //LoadVideoButton.SetActive(false);
-            //PlayVideoButton.SetActive(false);
+            LoadNShowVideoButton.SetActive(false);
+            LoadVideoButton.SetActive(false);
+            ShowVideoButton.SetActive(false);
             Debug.Log("MinimobAdServingExample:OnVideoPlayingAction()");
         };
         videoPlayer.OnVideoFinishedAction = () =>
         {
             //LoadingVideoPanel.SetActive(false);
-            //LoadNPlayVideoButton.SetActive(true);
-            //LoadVideoButton.SetActive(true);
-            //PlayVideoButton.SetActive(false);
+            LoadNShowVideoButton.SetActive(true);
+            LoadVideoButton.SetActive(true);
+            ShowVideoButton.SetActive(false);
             Debug.Log("MinimobAdServingExample:OnVideoFinishedAction()");
         };
         videoPlayer.OnVideoClosedAction = () =>
         {
             //LoadingVideoPanel.SetActive(false);
-            //LoadNPlayVideoButton.SetActive(true);
-            //LoadVideoButton.SetActive(true);
-            //PlayVideoButton.SetActive(false);
+            LoadNShowVideoButton.SetActive(true);
+            LoadVideoButton.SetActive(true);
+            ShowVideoButton.SetActive(false);
             Debug.Log("MinimobAdServingExample:OnVideoClosedAction()");
         };
     }
@@ -137,11 +136,10 @@ public class MinimobAdServingExample : MonoBehaviour
             Debug.Log("MinimobAdServing:adTagString:" + adTagString);
             Debug.Log("MinimobAdServingExample:onAdZoneCreatedAction() called");
             //LoadingVideoPanel.SetActive(true);
-            //LoadNPlayVideoButton.SetActive(false);
-            //LoadVideoButton.SetActive(false);
-            //PlayVideoButton.SetActive(false);
+            LoadNShowVideoButton.SetActive(false);
+            LoadVideoButton.SetActive(false);
+            ShowVideoButton.SetActive(false);
             videoPlayer.ShowVideo();
-            Debug.Log("MinimobAdServingExample:Showing video...");
         }
         ,false);
     }
@@ -154,12 +152,11 @@ public class MinimobAdServingExample : MonoBehaviour
         {
             Debug.Log("MinimobAdServingExample:onAdZoneCreatedAction() called");
             //LoadingVideoPanel.SetActive(true);
-            //LoadNPlayVideoButton.SetActive(false);
-            //LoadVideoButton.SetActive(false);
-            //PlayVideoButton.SetActive(false);
+            LoadNShowVideoButton.SetActive(false);
+            LoadVideoButton.SetActive(false);
+            ShowVideoButton.SetActive(false);
             _videoPlayer = videoPlayer;
             videoPlayer.LoadVideo();
-            Debug.Log("MinimobAdServingExample:Loading video...");
         }
         ,true);
     }
@@ -168,9 +165,9 @@ public class MinimobAdServingExample : MonoBehaviour
     {
         Debug.Log("MinimobAdServingExample:OnShowVideoButtonClicked()");
         //LoadingVideoPanel.SetActive(true);
-        //LoadNPlayVideoButton.SetActive(false);
-        //LoadVideoButton.SetActive(false);
-        //PlayVideoButton.SetActive(false);
+        LoadNShowVideoButton.SetActive(false);
+        LoadVideoButton.SetActive(false);
+        ShowVideoButton.SetActive(false);
         if (_videoPlayer != null)
         {
             _videoPlayer.ShowVideo();

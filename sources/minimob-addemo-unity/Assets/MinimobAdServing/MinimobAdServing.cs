@@ -47,7 +47,7 @@ public class MinimobAdServing : MonoBehaviour
     public void CreateAdZone(string adTagString, string customTrackingData, UnityAction onAdZoneCreatedAction, bool preloadVideo)
     {
         Debug.Log("MinimobAdServing:CreateAdZone()");
-        Debug.Log("MinimobAdServing:adTagString:" + adTagString);
+        //Debug.Log("MinimobAdServing:adTagString:" + adTagString);
         Debug.Log("MinimobAdServing:preloadVideo:"+ preloadVideo);
         // If the AdZone was already created and the mode is the same (immediate OR preloaded video), then execute the onAdZoneCreatedAction
         if (_adZoneCreated && _preloadVideo == preloadVideo)
@@ -95,6 +95,7 @@ public class MinimobAdServing : MonoBehaviour
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
             {
                 adPlayerObject.Call("LoadVideo");
+                Debug.Log("MinimobAdServing:AndroidJavaClass called LoadVideo");
             }
         };
 #endif
@@ -118,6 +119,7 @@ public class MinimobAdServing : MonoBehaviour
             using (var adPlayerObject = adPlayerJavaClass.CallStatic<AndroidJavaObject>("GetInstance"))
             {
                 adPlayerObject.Call("ShowVideo");
+                Debug.Log("MinimobAdServing:AndroidJavaClass called ShowVideo");
             }
         };
 #endif
