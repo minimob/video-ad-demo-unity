@@ -5,13 +5,13 @@ using Debug = UnityEngine.Debug;
 public class MinimobAdServing : MonoBehaviour
 {
     private UnityAction _onAdZoneCreatedAction;
-    public UnityAction OnAdsAvailableAction;
-    public UnityAction OnAdsNotAvailableAction;
-    public UnityAction OnVideoLoadingAction; // pre-loaded only
-    public UnityAction OnVideoLoadedAction; // pre-loaded only
-    public UnityAction OnVideoPlayingAction;
-    public UnityAction OnVideoFinishedAction;
-    public UnityAction OnVideoClosedAction;
+    public UnityAction onAdsAvailableAction;
+    public UnityAction onAdsNotAvailableAction;
+    public UnityAction onVideoLoadingAction; // pre-loaded only
+    public UnityAction onVideoLoadedAction; // pre-loaded only
+    public UnityAction onVideoPlayingAction;
+    public UnityAction onVideoFinishedAction;
+    public UnityAction onVideoClosedAction;
 
     private bool _adZoneCreated = false;
     private bool _preloadVideo = false;
@@ -47,8 +47,9 @@ public class MinimobAdServing : MonoBehaviour
     public void CreateAdZone(string adTagString, string customTrackingData, UnityAction onAdZoneCreatedAction, bool preloadVideo)
     {
         Debug.Log("MinimobAdServing:CreateAdZone()");
+        /*
         //Debug.Log("MinimobAdServing:adTagString:" + adTagString);
-        Debug.Log("MinimobAdServing:preloadVideo:"+ preloadVideo);
+        //Debug.Log("MinimobAdServing:preloadVideo:"+ preloadVideo);
         // If the AdZone was already created and the mode is the same (immediate OR preloaded video), then execute the onAdZoneCreatedAction
         if (_adZoneCreated && _preloadVideo == preloadVideo)
         {
@@ -61,10 +62,13 @@ public class MinimobAdServing : MonoBehaviour
         }
         // set the mode (immediate OR preloaded video)
         _preloadVideo = preloadVideo;
+        */
         // set the action for when the viceo is created
         _onAdZoneCreatedAction = onAdZoneCreatedAction;
+        /*
         // reset the adZone to not created YET
         _adZoneCreated = false;
+        */
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.adserving.unityplugin.MinimobAdServingUnityPlugin"))
@@ -139,52 +143,52 @@ public class MinimobAdServing : MonoBehaviour
     public void OnAdsAvailable()
     {
         Debug.Log("MinimobAdServing:OnAdsAvailable()");
-        if (OnAdsAvailableAction != null)
-            OnAdsAvailableAction();
+        if (onAdsAvailableAction != null)
+            onAdsAvailableAction();
     }
 
     public void OnAdsNotAvailable()
     {
         Debug.Log("MinimobAdServing:OnAdsNotAvailable()");
-        if (OnAdsNotAvailableAction != null)
-            OnAdsNotAvailableAction();
+        if (onAdsNotAvailableAction != null)
+            onAdsNotAvailableAction();
     }
 
     // pre-loaded only
     public void OnVideoLoading()
     {
         Debug.Log("MinimobAdServing:OnVideoLoading()");
-        if (OnVideoLoadingAction != null)
-            OnVideoLoadingAction();
+        if (onVideoLoadingAction != null)
+            onVideoLoadingAction();
     }
 
     // pre-loaded only
     public void OnVideoLoaded()
     {
         Debug.Log("MinimobAdServing:OnVideoLoaded()");
-        if (OnVideoLoadedAction != null)
-            OnVideoLoadedAction();
+        if (onVideoLoadedAction != null)
+            onVideoLoadedAction();
     }
 
     public void OnVideoPlaying()
     {
         Debug.Log("MinimobAdServing:OnVideoPlaying()");
-        if (OnVideoPlayingAction != null)
-            OnVideoPlayingAction();
+        if (onVideoPlayingAction != null)
+            onVideoPlayingAction();
     }
 
     public void OnVideoFinished()
     {
         Debug.Log("MinimobAdServing:OnVideoFinished()");
-        if (OnVideoFinishedAction != null)
-            OnVideoFinishedAction();
+        if (onVideoFinishedAction != null)
+            onVideoFinishedAction();
     }
 
     public void OnVideoClosed()
     {
         Debug.Log("MinimobAdServing:OnVideoClosed()");
-        if (OnVideoClosedAction != null)
-            OnVideoClosedAction();
+        if (onVideoClosedAction != null)
+            onVideoClosedAction();
     }
 
     public void OnApplicationFocus(bool focus)
