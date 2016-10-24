@@ -13,7 +13,7 @@ public class MinimobAdServingExample : MonoBehaviour
     [HideInInspector]
     public string customTrackingData = "";
     [HideInInspector]
-    public string adTagString = "<script> \n" +
+    private string adTagString = "<script> \n" +
                     " var mmAdTagSettings = { \n" +
                     " imei: \"[imei]\", \n" +
                     " android_id: \"[android_id]\", \n" +
@@ -75,9 +75,9 @@ public class MinimobAdServingExample : MonoBehaviour
         videoPlayer.OnVideoLoadingAction = () =>
         {
             //LoadingVideoPanel.SetActive(true);
-            LoadNShowVideoButton.SetActive(false);
-            LoadVideoButton.SetActive(false);
-            ShowVideoButton.SetActive(false);
+            //LoadNShowVideoButton.SetActive(false);
+            //LoadVideoButton.SetActive(false);
+            //ShowVideoButton.SetActive(false);
             Debug.Log("MinimobAdServingExample:OnVideoLoadingAction()");
         };
         // pre-loaded only
@@ -92,9 +92,9 @@ public class MinimobAdServingExample : MonoBehaviour
         videoPlayer.OnVideoPlayingAction = () =>
         {
             //LoadingVideoPanel.SetActive(false);
-            LoadNShowVideoButton.SetActive(false);
-            LoadVideoButton.SetActive(false);
-            ShowVideoButton.SetActive(false);
+            //LoadNShowVideoButton.SetActive(false);
+            //LoadVideoButton.SetActive(false);
+            //ShowVideoButton.SetActive(false);
             Debug.Log("MinimobAdServingExample:OnVideoPlayingAction()");
         };
         videoPlayer.OnVideoFinishedAction = () =>
@@ -122,12 +122,11 @@ public class MinimobAdServingExample : MonoBehaviour
 
         videoPlayer.CreateAdZone(adTagString, customTrackingData, ()=>
         {
-            Debug.Log("MinimobAdServing:adTagString:" + adTagString);
             Debug.Log("MinimobAdServingExample:onAdZoneCreatedAction() called");
             //LoadingVideoPanel.SetActive(true);
-            LoadNShowVideoButton.SetActive(false);
-            LoadVideoButton.SetActive(false);
-            ShowVideoButton.SetActive(false);
+            //LoadNShowVideoButton.SetActive(false);
+            //LoadVideoButton.SetActive(false);
+            //ShowVideoButton.SetActive(false);
             videoPlayer.ShowVideo();
         }
         ,false);
@@ -141,9 +140,9 @@ public class MinimobAdServingExample : MonoBehaviour
         {
             Debug.Log("MinimobAdServingExample:onAdZoneCreatedAction() called");
             //LoadingVideoPanel.SetActive(true);
-            LoadNShowVideoButton.SetActive(false);
-            LoadVideoButton.SetActive(false);
-            ShowVideoButton.SetActive(false);
+            //LoadNShowVideoButton.SetActive(false);
+            //LoadVideoButton.SetActive(false);
+            //ShowVideoButton.SetActive(false);
             _videoPlayer = videoPlayer;
             videoPlayer.LoadVideo();
         }
@@ -154,9 +153,9 @@ public class MinimobAdServingExample : MonoBehaviour
     {
         Debug.Log("MinimobAdServingExample:OnShowVideoButtonClicked()");
         //LoadingVideoPanel.SetActive(true);
-        LoadNShowVideoButton.SetActive(false);
-        LoadVideoButton.SetActive(false);
-        ShowVideoButton.SetActive(false);
+        //LoadNShowVideoButton.SetActive(false);
+        //LoadVideoButton.SetActive(false);
+        //ShowVideoButton.SetActive(false);
         if (_videoPlayer != null)
         {
             _videoPlayer.ShowVideo();
