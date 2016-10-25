@@ -38,11 +38,6 @@ public class MinimobAdServingExample : MonoBehaviour
                     " preload: \"[preload]\", \n" +
                     " custom_tracking_data: \"[custom_tracking_data]\"}; \n" +
                     " \n" +
-                    " var dev_settings = { \n" +
-                    " dataUrl:'http://172.30.3.166:3000/adserver/servep/', \n" +
-                    " templateUrl:'http://172.30.3.166:3000/', \n" +
-                    " x_debug_ip:\"66.87.121.197\" \n" +
-                    "}; \n" +
                     " var mmAdTagSettings_auto = { \n" +
                     " adzoneId:\"58077927000062\", \n" +
                     " templateId: \"video-fullscreen2.html\", \n" +
@@ -52,7 +47,7 @@ public class MinimobAdServingExample : MonoBehaviour
                     " bundleId: \"com.minimob.addemos.unity\", \n" +
                     " placement: \"video fullscreen interstitial\"}; \n" +
                     " </script> \n" +
-                    " <script id=\"sdk-loader\" onerror=\"if(typeof(mmji)!='undefined'){mmji.noAds()}\" type=\"text/javascript\" src='http://172.30.3.166:3000/assets/video-fullscreen-mmji.js'></script>";
+                    " <script id=\"sdk-loader\" onerror=\"if(typeof(mmji)!='undefined'){mmji.noAds()}\" type=\"text/javascript\" src='http://s.rtad.bid/assets/video-fullscreen-mmji.js'></script>";
 
 
     void Start () 
