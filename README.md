@@ -1,6 +1,6 @@
 <div id="D-Entire-document">
-<div id="D-adtag-integration">
-<h2>Integrating VAST Video Ads using JavaScript Ad Tags</h2>
+<div id="D-adtag-refimp-unity">
+<h2>A Reference Implementation of VAST Video Ads using JavaScript Ad Tags, with Unity</h2>
    <p>The JavaScript Ad Tag is a static script for requesting and displaying an ad within an HTML-based page. For implementing this, it is required to insert the JavaScript Ad Tag into the html code of a mobile web application or mobile in-app web controller.</p>
    <p>Note that this method is intended for real time ad serving and presentation, between the Minimob ad servers and mobile devices.  It cannot be used for server-to-server batch retrieval of ads. For each ad impression, a separate request must be made to the ad servers, supplying all the required information plus any additional data, if available. By specifying values at the parameters included at the ad tag, an application can forward extra information towards the ad servers, which can be useful for delivering better targeted ads.</p>
    <p>In case of preloading ads to an app, the lifetime of ads delivered should not exceed 5 minutes. If an application is open for periods longer than this duration, the app should refresh the presented ads at regular intervals well under that limit.</p>
@@ -49,192 +49,189 @@
     <li><strong>Preloaded video ad</strong>: the video ad is preloaded and it is played upon a separate request (two separate calls are used, one for loading a video ad and another for showing the video ad) </li>
 </ul>
 <h5>Immediate Video ad</h5>
-   <p>To play a video ad, you must use the <strong>CreateVideo</strong> method of <strong>MinimobVideoAdPlayer</strong>. The method takes the following parameters:</p>
+   <p>To play a video ad, you must use the <strong>CreateVideo</strong> method of <strong>MinimobAdServing</strong>. The method takes the following parameters:</p>
 <ul>
     <li>The 1st parameter is the <strong>AdTagString</strong> that your get from your <strong>Minimob Dashboard</strong> for your <strong>AdZone</strong>.</li>
     <li>The 2nd parameter is a string of custom tracking data that you want to pass.</li>
     <li>The 3rd parameter is a callback that will be called when the <strong>AdZone</strong> is created.</li>
     <li>The 4th parameter specifies whether the video will be preloaded or not.</li>
 </ul>
-   <p>When the creation callback is called you can call <strong>ShowVideo()</strong> directly to play the video.</p>
    <p>At the point in your code where you want to show the video ad, include the following lines.</p>
 <pre class="prettyprint linenums">
 <code>// Copy the JavaScript Ad Tag that is given at the corresponding Ad Zone under Monetize &gt; Video Ads of the Minimob dashboard, and paste it at the adTagString
-    public string AdTagString = "&lt;script&gt; \n" +
-                        " var mmAdTagSettings = { \n" +
-                        " imei: \"[imei]\", \n" +
-                        " android_id: \"[android_id]\", \n" +
-                        " gaid: \"[gaid]\", \n" +
-                        " idfa: \"[idfa]\", \n" +
-                        " idfv: \"[idfv]\", \n" +
-                        " category: \"[category]\", \n" +
-                        " age: \"[age]\", \n" +
-                        " gender: \"[gender]\", \n" +
-                        " keywords: \"[keywords]\", \n" +
-                        " lat: \"[lat]\", \n" +
-                        " lon: \"[lon]\", \n" +
-                        " device_width: \"[device_width]\", \n" +
-                        " device_height: \"[device_height]\", \n" +
-                        " mnc: \"[mnc]\", \n" +
-                        " mcc: \"[mcc]\", \n" +
-                        " wifi: \"[wifi]\", \n" +
-                        " ios_version: \"[ios_version]\", \n" +
-                        " android_version: \"[android_version]\", \n" +
-                        " placement_width: \"[placement_width]\", \n" +
-                        " placement_height: \"[placement_height]\", \n" +
-                        " preload: \"[preload]\", \n" +
-                        " custom_tracking_data: \"[custom_tracking_data]\"}; \n" +
-                        " \n" +
-                        " var mmAdTagSettings_auto = { \n" +
-                        " adzoneId:\"571793a200000a\", \n" +
-                        " templateId: \"video-fullscreen2.html\", \n" +
-                        " mobile_web: false, \n" +
-                        " video_supported: true, \n" +
-                        " appId: \"57174ada000002\", \n" +
-                        " bundleId: \"com.minimob.addemos\", \n" +
-                        " placement: \"video fullscreen interstitial\"}; \n" +
-                        " &lt;/script&gt; \n" +
-                        " &lt;script id=\"sdk-loader\" onerror=\"if(typeof(mmji)!='undefined'){mmji.noAds()}\" type=\"text/javascript\" src=\"http://s.rtad.bid/assets/video-fullscreen-mmji.js\"&gt;&lt;/script&gt;";
+private string adTagString = "&lt;script&gt; \n" +
+    " var mmAdTagSettings = { \n" +
+    " imei: \"[imei]\", \n" +
+    " android_id: \"[android_id]\", \n" +
+    " gaid: \"[gaid]\", \n" +
+    " idfa: \"[idfa]\", \n" +
+    " idfv: \"[idfv]\", \n" +
+    " category: \"[category]\", \n" +
+    " age: \"[age]\", \n" +
+    " gender: \"[gender]\", \n" +
+    " keywords: \"[keywords]\", \n" +
+    " lat: \"[lat]\", \n" +
+    " lon: \"[lon]\", \n" +
+    " device_width: \"[device_width]\", \n" +
+    " device_height: \"[device_height]\", \n" +
+    " mnc: \"[mnc]\", \n" +
+    " mcc: \"[mcc]\", \n" +
+    " wifi: \"[wifi]\", \n" +
+    " ios_version: \"[ios_version]\", \n" +
+    " android_version: \"[android_version]\", \n" +
+    " placement_width: \"[placement_width]\", \n" +
+    " placement_height: \"[placement_height]\", \n" +
+    " preload: \"[preload]\", \n" +
+    " custom_tracking_data: \"[custom_tracking_data]\"}; \n" +
+    " \n" +
+    " var mmAdTagSettings_auto = { \n" +
+    " adzoneId:\"This-is-a-FAKE-adzoneId\", \n" +
+    " templateId: \"video-fullscreen2.html\", \n" +
+    " mobile_web: false, \n" +
+    " video_supported: true, \n" +
+    " appId: \"This-is-a-FAKE-adzoneId\", \n" +
+    " bundleId: \"com.minimob.addemos\", \n" +
+    " placement: \"video fullscreen interstitial\"}; \n" +
+    " &lt;/script&gt; \n" +
+    " &lt;script id=\"sdk-loader\" onerror=\"if(typeof(mmji)!='undefined'){mmji.noAds()}\" type=\"text/javascript\" src=\"http://s.rtad.bid/assets/video-fullscreen-mmji.js\"&gt;&lt;/script&gt;";
 
-    void Start ()
-    {
-        var videoPlayer = MinimobVideoAdPlayer.GetInstance();
+// Get an instance of MinimobAdServing class
+var videoPlayer = MinimobAdServing.GetInstance();
 
-        // Optionally, set the delegates for the supported events:
-        // ads available, ads NOT available, video playing, video finished, video closed
-        // This enables you to customize the user experience according to the needs of your app
-        // OnAdsAvailableAction is called when there are ads available and will be invoked after a call to ShowVideo() or PreloadVideo()
-        videoPlayer.OnAdsAvailableAction = () =&gt;
-        {
-        };
-        // OnAdsNotAvailableAction is called when there are no ads available and it will be invoked after a call to ShowVideo() or PreloadVideo()
-        videoPlayer.OnAdsNotAvailableAction = () =&gt;
-        {
-        };
-        // OnVideoPlayingAction is called when the video starts playing
-        videoPlayer.OnVideoPlayingAction = () =&gt;
-        {
-        };
-        // OnVideoFinishedAction is called when the video has finished playing.
-        // This means that the user watched the whole video and it is a good place to give a reward if you want to incentivize the action.
-        videoPlayer.OnVideoFinishedAction = () =&gt;
-        {
-        };
-        // OnVideoClosedAction is called when the user closes the Video Ad before it has finished
-        videoPlayer.OnVideoClosedAction = () =&gt;
-        {
-        };
-    }
+// Create a method and include the following
+videoPlayer.CreateAdZone(adTagString, customTrackingData, () =&gt;
+{
+    // Load and show the video when the AdZone is created
+    videoPlayer.ShowVideo();
+}
+, false);
 
-    // Create video
-    videoPlayer.CreateVideo(AdTagString, CustomTrackingData,()=&gt;
-    {
-        // Show the video
-        videoPlayer.ShowVideo();
-    }
-    ,false);
+// Optionally, set the delegates for the supported events:
+// ads available, ads NOT available, video playing, video finished, video closed
+// This enables you to customize the user experience according to the needs of your app
+// onAdsAvailableAction is called when there are ads available and will be invoked after a call to ShowVideo()
+videoPlayer.onAdsAvailableAction = () =&gt;
+{
+};
+// onAdsNotAvailableAction is called when there are no ads available and it will be invoked after a call to ShowVideo()
+videoPlayer.onAdsNotAvailableAction = () =&gt;
+{
+};
+// onVideoPlayingAction is called when the video starts playing
+videoPlayer.onVideoPlayingAction = () =&gt;
+{
+};
+// onVideoFinishedAction is called when the video has finished playing.
+// This means that the user watched the whole video and it is a good place to give a reward if you want to incentivize the action.
+videoPlayer.onVideoFinishedAction = () =&gt;
+{
+};
+// onVideoClosedAction is called when the user closes the Video Ad before it has finished
+videoPlayer.onVideoClosedAction = () =&gt;
+{
+};
 </code>
 </pre>
 <h5>Preloaded video ad</h5>
-   <p>To preload and play a video ad, you must use the <strong>CreateVideo</strong> method of <strong>MinimobVideoAdPlayer</strong>. The method takes the following parameters:</p>
+   <p>To preload and play a video ad, you must use the <strong>CreateVideo</strong> method of <strong>MinimobAdServing</strong>. The method takes the following parameters:</p>
 <ul>
     <li>The 1st parameter is the <strong>AdTagString</strong> that your get from your <strong>Minimob Dashboard</strong> for your <strong>AdZone</strong>.</li>
     <li>The 2nd parameter is a string of custom tracking data that you want to pass.</li>
     <li>The 3rd parameter is a callback that will be called when the <strong>AdZone</strong> is created.</li>
     <li>The 4th parameter specifies whether the video will be preloaded or not.</li>
 </ul>
-   <p>When the creation callback is called you can call <strong>LoadVideo()</strong> to preload the video.</p>
    <p>At the point in your code where you want to preload the video ad, include the following lines.</p>
 <pre class="prettyprint linenums">
 <code>// Copy the JavaScript Ad Tag that is given at the corresponding Ad Zone under Monetize &gt; Video Ads of the Minimob dashboard, and paste it at the adTagString
-    public string AdTagString = "&lt;script&gt; \n" +
-                        " var mmAdTagSettings = { \n" +
-                        " imei: \"[imei]\", \n" +
-                        " android_id: \"[android_id]\", \n" +
-                        " gaid: \"[gaid]\", \n" +
-                        " idfa: \"[idfa]\", \n" +
-                        " idfv: \"[idfv]\", \n" +
-                        " category: \"[category]\", \n" +
-                        " age: \"[age]\", \n" +
-                        " gender: \"[gender]\", \n" +
-                        " keywords: \"[keywords]\", \n" +
-                        " lat: \"[lat]\", \n" +
-                        " lon: \"[lon]\", \n" +
-                        " device_width: \"[device_width]\", \n" +
-                        " device_height: \"[device_height]\", \n" +
-                        " mnc: \"[mnc]\", \n" +
-                        " mcc: \"[mcc]\", \n" +
-                        " wifi: \"[wifi]\", \n" +
-                        " ios_version: \"[ios_version]\", \n" +
-                        " android_version: \"[android_version]\", \n" +
-                        " placement_width: \"[placement_width]\", \n" +
-                        " placement_height: \"[placement_height]\", \n" +
-                        " preload: \"[preload]\", \n" +
-                        " custom_tracking_data: \"[custom_tracking_data]\"}; \n" +
-                        " \n" +
-                        " var mmAdTagSettings_auto = { \n" +
-                        " adzoneId:\"571793a200000a\", \n" +
-                        " templateId: \"video-fullscreen2.html\", \n" +
-                        " mobile_web: false, \n" +
-                        " video_supported: true, \n" +
-                        " appId: \"57174ada000002\", \n" +
-                        " bundleId: \"com.minimob.addemos\", \n" +
-                        " placement: \"video fullscreen interstitial\"}; \n" +
-                        " &lt;/script&gt; \n" +
-                        " &lt;script id=\"sdk-loader\" onerror=\"if(typeof(mmji)!='undefined'){mmji.noAds()}\" type=\"text/javascript\" src=\"http://s.rtad.bid/assets/video-fullscreen-mmji.js\"&gt;&lt;/script&gt;";
+private string adTagString = "&lt;script&gt; \n" +
+    " var mmAdTagSettings = { \n" +
+    " imei: \"[imei]\", \n" +
+    " android_id: \"[android_id]\", \n" +
+    " gaid: \"[gaid]\", \n" +
+    " idfa: \"[idfa]\", \n" +
+    " idfv: \"[idfv]\", \n" +
+    " category: \"[category]\", \n" +
+    " age: \"[age]\", \n" +
+    " gender: \"[gender]\", \n" +
+    " keywords: \"[keywords]\", \n" +
+    " lat: \"[lat]\", \n" +
+    " lon: \"[lon]\", \n" +
+    " device_width: \"[device_width]\", \n" +
+    " device_height: \"[device_height]\", \n" +
+    " mnc: \"[mnc]\", \n" +
+    " mcc: \"[mcc]\", \n" +
+    " wifi: \"[wifi]\", \n" +
+    " ios_version: \"[ios_version]\", \n" +
+    " android_version: \"[android_version]\", \n" +
+    " placement_width: \"[placement_width]\", \n" +
+    " placement_height: \"[placement_height]\", \n" +
+    " preload: \"[preload]\", \n" +
+    " custom_tracking_data: \"[custom_tracking_data]\"}; \n" +
+    " \n" +
+    " var mmAdTagSettings_auto = { \n" +
+    " adzoneId:\"This-is-a-FAKE-adzoneId\", \n" +
+    " templateId: \"video-fullscreen2.html\", \n" +
+    " mobile_web: false, \n" +
+    " video_supported: true, \n" +
+    " appId: \"This-is-a-FAKE-adzoneId\", \n" +
+    " bundleId: \"com.minimob.addemos\", \n" +
+    " placement: \"video fullscreen interstitial\"}; \n" +
+    " &lt;/script&gt; \n" +
+    " &lt;script id=\"sdk-loader\" onerror=\"if(typeof(mmji)!='undefined'){mmji.noAds()}\" type=\"text/javascript\" src=\"http://s.rtad.bid/assets/video-fullscreen-mmji.js\"&gt;&lt;/script&gt;";
 
-    void Start ()
-    {
-        var videoPlayer = MinimobVideoAdPlayer.GetInstance();
+// Get an instance of MinimobAdServing class
+var videoPlayer = MinimobAdServing.GetInstance();
 
-        // Optionally, set the delegates for the supported events:
-        // ads available, ads NOT available, video loading, video loaded, video playing, video finished, video closed
-        // This enables you to customize the user experience according to the needs of your app
-        // OnAdsAvailableAction is called when there are ads available and will be invoked after a call to ShowVideo() or LoadVideo()
-        videoPlayer.OnAdsAvailableAction = () =&gt;
-        {
-        };
-        // OnAdsNotAvailableAction is called when there are no ads available and it will be invoked after a call to ShowVideo() or LoadVideo()
-        videoPlayer.OnAdsNotAvailableAction = () =&gt;
-        {
-        };
-        // OnVideoLoadingAction is called when the video is loading
-        videoPlayer.OnVideoLoadingAction = () =&gt;
-        {
-        };
-        // OnVideoLoadedAction is called when the video has finished loading
-        videoPlayer.OnVideoLoadedAction = () =&gt;
-        {
-        };
-        // OnVideoPlayingAction is called when the video starts playing
-        videoPlayer.OnVideoPlayingAction = () =&gt;
-        {
-        };
-        // OnVideoFinishedAction is called when the video has finished playing.
-        // This means that the user watched the whole video and it is a good place to give a reward if you want to incentivize the action.
-        videoPlayer.OnVideoFinishedAction = () =&gt;
-        {
-        };
-        // OnVideoClosedAction is called when the user closes the Video Ad before it has finished
-        videoPlayer.OnVideoClosedAction = () =&gt;
-        {
-        };
-    }
+// Create a method and include the following
+videoPlayer.CreateAdZone(adTagString, customTrackingData, () =&gt;
+{
+    // Load the video when the AdZone is created
+    videoPlayer.LoadVideo();
+}
+, true);
 
-    // Create video
-    videoPlayer.CreateVideo(AdTagString, CustomTrackingData, ()=&gt;
-    {
-        // Load the video
-        videoPlayer.LoadVideo();
-    }
-    ,true);
+// Optionally, set the delegates for the supported events:
+// ads available, ads NOT available, video loading, video loaded, video playing, video finished, video closed
+// This enables you to customize the user experience according to the needs of your app
+// onAdsAvailableAction is called when there are ads available and will be invoked after a call to LoadVideo()
+videoPlayer.onAdsAvailableAction = () =&gt;
+{
+};
+// onAdsNotAvailableAction is called when there are no ads available and it will be invoked after a call to LoadVideo()
+videoPlayer.onAdsNotAvailableAction = () =&gt;
+{
+};
+// onVideoLoadingAction is called when the video is loading
+videoPlayer.onVideoLoadingAction = () =&gt;
+{
+};
+// onVideoLoadedAction is called when the video has finished loading
+videoPlayer.onVideoLoadedAction = () =&gt;
+{
+};
+// onVideoPlayingAction is called when the video starts playing
+videoPlayer.onVideoPlayingAction = () =&gt;
+{
+};
+// onVideoFinishedAction is called when the video has finished playing.
+// This means that the user watched the whole video and it is a good place to give a reward if you want to incentivize the action.
+videoPlayer.onVideoFinishedAction = () =&gt;
+{
+};
+// onVideoClosedAction is called when the user closes the Video Ad before it has finished
+videoPlayer.onVideoClosedAction = () =&gt;
+{
+};
 </code>
 </pre>
-   <p>Once the video has finished loading, the <strong>OnVideoLoadedAction</strong> callback will be invoked.</p>
+   <p>Once the video has finished loading, the <strong>onVideoLoadedAction</strong> callback will be invoked.</p>
    <p>At the point in your code where you want to play the video, you need to call the <strong>ShowVideo()</strong> method.</p>
 <pre class="prettyprint linenums">
-<code>// Show the video
-videoPlayer.ShowVideo();
+<code>if (videoPlayer != null)
+{
+    // Show the video
+    videoPlayer.ShowVideo();
+}
 </code>
 </pre>
 <h3>Ad Tag parameters</h3>
@@ -552,7 +549,7 @@ false: for blocking video media supported ads</td>
 </code>
 </pre>
 </div>
-<div id="D-adtag-license">
+<div id="D-adtag-license-unity">
 <h2>License</h2>
    <p>This is free and unencumbered software released into the public domain.</p>
    <p>Anyone is free to copy, modify, publish, use, compile, sell, or<br />
