@@ -14,13 +14,11 @@ public class MinimobAdServing : MonoBehaviour
     public UnityAction onVideoClosedAction;
 
     private bool _adZoneCreated = false;
-    private bool _preloadVideo = false;
 
     private static MinimobAdServing _instance = null;
 
     public static MinimobAdServing GetInstance()
     {
-        //Debug.Log("MinimobAdServing:GetInstance()");
         if (_instance == null)
         {
             var go = new GameObject();
@@ -33,7 +31,6 @@ public class MinimobAdServing : MonoBehaviour
 
     public void Awake()
     {
-        //Debug.Log("MinimobAdServing:Awake()");
         if (_instance != null)
         {
             Destroy(gameObject);
@@ -47,28 +44,8 @@ public class MinimobAdServing : MonoBehaviour
     public void CreateAdZone(string adTagString, string customTrackingData, UnityAction onAdZoneCreatedAction, bool preloadVideo)
     {
         Debug.Log("MinimobAdServing:CreateAdZone()");
-        /*
-        //Debug.Log("MinimobAdServing:adTagString:" + adTagString);
-        //Debug.Log("MinimobAdServing:preloadVideo:"+ preloadVideo);
-        // If the AdZone was already created and the mode is the same (immediate OR preloaded video), then execute the onAdZoneCreatedAction
-        if (_adZoneCreated && _preloadVideo == preloadVideo)
-        {
-            if (onAdZoneCreatedAction != null)
-            {
-                Debug.Log("MinimobAdServing:Calling onAdZoneCreatedAction()");
-                onAdZoneCreatedAction();
-            }
-            return;
-        }
-        // set the mode (immediate OR preloaded video)
-        _preloadVideo = preloadVideo;
-        */
         // set the action for when the viceo is created
         _onAdZoneCreatedAction = onAdZoneCreatedAction;
-        /*
-        // reset the adZone to not created YET
-        _adZoneCreated = false;
-        */
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         using (var adPlayerJavaClass = new AndroidJavaClass("com.minimob.adserving.unityplugin.MinimobAdServingUnityPlugin"))

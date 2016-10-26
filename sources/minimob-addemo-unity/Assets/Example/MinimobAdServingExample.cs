@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class MinimobAdServingExample : MonoBehaviour
 {
-    private MinimobAdServing _videoPlayer;
+    private MinimobAdServing videoPlayer;
 
     public GameObject LoadingVideoPanel;
     public GameObject LoadNShowVideoButton;
@@ -52,67 +52,7 @@ public class MinimobAdServingExample : MonoBehaviour
 
     void Start () 
     {
-        var videoPlayer = MinimobAdServing.GetInstance();
-
-        // declare the delegates
-        videoPlayer.onAdsAvailableAction = () =>
-        {
-            LoadingVideoPanel.SetActive(false);
-            LoadNShowVideoButton.SetActive(true);
-            LoadVideoButton.SetActive(true);
-            ShowVideoButton.SetActive(false);
-            Debug.Log("MinimobAdServingExample:OnAdsAvailableAction()");
-        };
-        videoPlayer.onAdsNotAvailableAction = () =>
-        {
-            LoadingVideoPanel.SetActive(false);
-            LoadNShowVideoButton.SetActive(true);
-            LoadVideoButton.SetActive(true);
-            ShowVideoButton.SetActive(false);
-            Debug.Log("MinimobAdServingExample:OnAdsNotAvailableAction()");
-        };
-        // pre-loaded only
-        videoPlayer.onVideoLoadingAction = () =>
-        {
-            LoadingVideoPanel.SetActive(true);
-            LoadNShowVideoButton.SetActive(false);
-            LoadVideoButton.SetActive(false);
-            ShowVideoButton.SetActive(false);
-            Debug.Log("MinimobAdServingExample:OnVideoLoadingAction()");
-        };
-        // pre-loaded only
-        videoPlayer.onVideoLoadedAction = () =>
-        {
-            LoadingVideoPanel.SetActive(false);
-            LoadNShowVideoButton.SetActive(true);
-            LoadVideoButton.SetActive(false);
-            ShowVideoButton.SetActive(true);
-            Debug.Log("MinimobAdServingExample:OnVideoLoadedAction()");
-        };
-        videoPlayer.onVideoPlayingAction = () =>
-        {
-            LoadingVideoPanel.SetActive(false);
-            LoadNShowVideoButton.SetActive(false);
-            LoadVideoButton.SetActive(false);
-            ShowVideoButton.SetActive(false);
-            Debug.Log("MinimobAdServingExample:OnVideoPlayingAction()");
-        };
-        videoPlayer.onVideoFinishedAction = () =>
-        {
-            LoadingVideoPanel.SetActive(false);
-            LoadNShowVideoButton.SetActive(true);
-            LoadVideoButton.SetActive(true);
-            ShowVideoButton.SetActive(false);
-            Debug.Log("MinimobAdServingExample:OnVideoFinishedAction()");
-        };
-        videoPlayer.onVideoClosedAction = () =>
-        {
-            LoadingVideoPanel.SetActive(false);
-            LoadNShowVideoButton.SetActive(true);
-            LoadVideoButton.SetActive(true);
-            ShowVideoButton.SetActive(false);
-            Debug.Log("MinimobAdServingExample:OnVideoClosedAction()");
-        };
+        
     }
 
     public void OnLoadNShowVideoButtonClicked()
@@ -134,16 +74,16 @@ public class MinimobAdServingExample : MonoBehaviour
         LoadNShowVideoButton.SetActive(false);
         LoadVideoButton.SetActive(false);
         ShowVideoButton.SetActive(false);
-        if (_videoPlayer != null)
+        if (videoPlayer != null)
         {
-            _videoPlayer.ShowVideo();
+            videoPlayer.ShowVideo();
             Debug.Log("MinimobAdServingExample:Showing video...");
         }
     }
 
     private void _setupAdZone()
     {
-        var videoPlayer = MinimobAdServing.GetInstance();
+        videoPlayer = MinimobAdServing.GetInstance();
         videoPlayer.CreateAdZone(adTagString, customTrackingData, () =>
         {
             Debug.Log("MinimobAdServingExample:onAdZoneCreatedAction() called");
@@ -200,7 +140,7 @@ public class MinimobAdServingExample : MonoBehaviour
 
     private void _setupAdZonePreloaded()
     {
-        var videoPlayer = MinimobAdServing.GetInstance();
+        videoPlayer = MinimobAdServing.GetInstance();
         videoPlayer.CreateAdZone(adTagString, customTrackingData, () =>
         {
             Debug.Log("MinimobAdServingExample:onAdZoneCreatedAction() called");
@@ -208,7 +148,6 @@ public class MinimobAdServingExample : MonoBehaviour
             LoadNShowVideoButton.SetActive(false);
             LoadVideoButton.SetActive(false);
             ShowVideoButton.SetActive(false);
-            _videoPlayer = videoPlayer;
             videoPlayer.LoadVideo();
         }
         , true);
